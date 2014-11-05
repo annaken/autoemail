@@ -36,25 +36,32 @@ sock.close
 phtml = BeautifulSoup(webpage)
 
 # Find the main content
-maincontent = phtml.body.find('table', attrs={'class':'small lst'})
+maincontent = phtml.body.find('table', attrs={'class':'table table-striped table-condensed small lst top10'})
 
 # Find all the topics
-searchresults = ""
+results = ""
 
 # Oslo
 topic1 = maincontent.findAll("a", text=re.compile(".*oslo.*", re.IGNORECASE))
 topic2 = maincontent.findAll("a", text=re.compile(".*norway.*", re.IGNORECASE))
+topic3 = maincontent.findAll("a", text=re.compile(".*climb.*", re.IGNORECASE))
 
-searchresults = topic1 + topic2
+topics = topic1 + topic2 + topic3
+print topics
 
-text = searchresults
+for link in topics:
+	print link
+
+exit()
+
+text = topics
 
 html = """\
 <html>
   <head></head>
   <body>
 		<p>This is an alert that one or more of your search terms 'Oslo' or 'Norway' is currently being actively discussed on UKC.<br/><br/>
-		Search results:<br/>""" + searchresults + """<br/><br/>
+		Search results:<br/>""" + results + """<br/><br/>
   		<a href="http://www.ukclimbing.com/forums/">Click here to go to the ukc forum</a>
    	</p>
   </body>

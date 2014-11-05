@@ -4,8 +4,8 @@
 from optparse import OptionParser
 import ConfigParser
 import urllib
-#from BeautifulSoup import BeautifulSoup
-from bs4 import BeautifulSoup
+from BeautifulSoup import BeautifulSoup
+#from bs4 import BeautifulSoup
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -17,7 +17,7 @@ enc = 'utf-8'
 
 # Get outbout email settings from config
 emailconfig = ConfigParser.RawConfigParser()
-emailconfig.read('email.conf')
+emailconfig.read('k_email.conf')
 
 smtpserver   = emailconfig.get('Email', 'smtpserver')
 from_addr    = emailconfig.get('Email', 'from_addr')
