@@ -4,8 +4,8 @@
 from optparse import OptionParser
 import ConfigParser
 import urllib
-from BeautifulSoup import BeautifulSoup
-#from bs4 import BeautifulSoup
+#from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -18,7 +18,7 @@ enc = 'utf-8'
 
 # Get outbout email settings from config
 emailconfig = ConfigParser.RawConfigParser()
-emailconfig.read('email.conf')
+emailconfig.read('ukc_email.conf')
 
 smtpserver   = emailconfig.get('Email', 'smtpserver')
 from_addr    = emailconfig.get('Email', 'from_addr')
@@ -27,8 +27,7 @@ login        = emailconfig.get('Email', 'login')
 password     = emailconfig.get('Email', 'password')
 
 # Get the content from the website
-#sock = urllib.urlopen("http://www.ukclimbing.com/forums/")
-sock = urllib.urlopen("http://www.ukclimbing.com/forums/i.php?f=2")
+sock = urllib.urlopen("http://www.ukclimbing.com/forums/")
 webpage = sock.read()
 sock.close
 
@@ -44,23 +43,24 @@ results = ""
 # Oslo
 topic1 = maincontent.findAll("a", text=re.compile(".*oslo.*", re.IGNORECASE))
 topic2 = maincontent.findAll("a", text=re.compile(".*norway.*", re.IGNORECASE))
-topic3 = maincontent.findAll("a", text=re.compile(".*climb.*", re.IGNORECASE))
+#topic3 = maincontent.findAll("a", text=re.compile(".*winter.*", re.IGNORECASE))
+#topic4 = maincontent.findAll("a", text=re.compile(".*rjukan.*", re.IGNORECASE))
 
-topics = topic1 + topic2 + topic3
-print topics
+topics = topic1 + topic2
 
 for link in topics:
-	print link
+	results += '<a href="http://www.ukclimbing.com/forums/' + link.get('href') + '">' + link.text + '</a><br/>'
 
-exit()
-
-text = topics
+if not topics:
+	exit()
+ 
+text = results
 
 html = """\
 <html>
   <head></head>
   <body>
-		<p>This is an alert that one or more of your search terms 'Oslo' or 'Norway' is currently being actively discussed on UKC.<br/><br/>
+		<p>This is an alert that one or more of your search terms 'Oslo', 'Norway', 'Winter' or 'Rjukan' is currently being actively discussed on UKC.<br/><br/>
 		Search results:<br/>""" + results + """<br/><br/>
   		<a href="http://www.ukclimbing.com/forums/">Click here to go to the ukc forum</a>
    	</p>
