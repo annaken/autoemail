@@ -4,8 +4,8 @@
 from optparse import OptionParser
 import ConfigParser
 import urllib
-from BeautifulSoup import BeautifulSoup
-#from bs4 import BeautifulSoup
+#from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
