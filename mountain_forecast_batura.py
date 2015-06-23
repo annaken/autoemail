@@ -28,7 +28,7 @@ login        = emailconfig.get('Email', 'login')
 password     = emailconfig.get('Email', 'password')
 
 # Get the content from the website
-sock = urllib.urlopen("http://nwfc.pmd.gov.pk/24-hour-weather-outlook/index.php")
+sock = urllib.urlopen("http://www.mountain-forecast.com/peaks/Batura/forecasts/5000")
 webpage = sock.read()
 sock.close
 
@@ -36,11 +36,34 @@ sock.close
 phtml = BeautifulSoup(webpage)
 
 # Find the first time Gilgit is mentioned (the most recent result)
-g_head = phtml.body.find(text=re.compile(".*Gilgit.*"))
+#g_head = phtml.body.find(text=re.compile(".*Gilgit.*"))
 # Fint the next sibling to get the description
-g_desc = g_head.find_next("span").find("span").contents[0]
+#g_desc = g_head.find_next("span").find("span").contents[0]
 
-text = g_desc
+#text = g_desc
+
+maincontent = phtml.body.find('div', attrs={'id':'forecast-cont'})
+
+day_tr = maincontent.find('tr', attrs={'class':'lar hea '} )
+#day_list = day_tr.findAll(['td','b'])
+day_list = day_tr.findAll('b')
+
+for d in day_list:
+	print d.contents[0][0]
+
+exit()
+
+
+# Get the main article's title
+article_title = maincontent.h2.a.span.string
+enc_article_title = unicode(article_title).encode(enc)
+subject = "Klar Tale " + enc_article_title
+
+# and short content
+article_text = maincontent.find('div', attrs={'class':'subtext'}).contents[5]
+enc_article_text = unicode(article_text).encode(enc)
+text = enc_article_title + "\n\n" + enc_article_text
+
 
 html = """\
 <html>
