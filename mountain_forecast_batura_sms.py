@@ -118,11 +118,11 @@ text = weathermsg
 
 
 msg = MIMEMultipart('alternative')
-msg['Subject'] = text
+msg['Subject'] = '8821644407663'
 msg['From'] = from_addr
 msg['To'] = ','.join(to_addr_list)
 
-part1 = MIMEText('', 'plain')
+part1 = MIMEText(text, 'plain')
 
 msg.attach(part1)
 
