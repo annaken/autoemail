@@ -111,11 +111,19 @@ for i in range(0, 17):
 	weathermsg+=daylist[i]
 	weathermsg+=weatherlist[i]
 	weathermsg+=snowlist[i]
-	weathermsg+=' '
+	weathermsg+='_'
 
 
 text = weathermsg
-
+html = """\
+<html>
+  <head></head>
+  <body>
+    <p>
+""" + weathermsg  + """
+    </p>                                                           </body>
+</html>
+"""
 
 msg = MIMEMultipart('alternative')
 msg['Subject'] = '8821644407663'
@@ -123,8 +131,10 @@ msg['From'] = from_addr
 msg['To'] = ','.join(to_addr_list)
 
 part1 = MIMEText(text, 'plain')
+part2 = MIMEText(html, 'html')
 
 msg.attach(part1)
+#msg.attach(part2)
 
 server = smtplib.SMTP(smtpserver)
 server.starttls()
